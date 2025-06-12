@@ -49,15 +49,15 @@ npm run build
 
 # ✅ Ruta básica
 Crea una vista en src/views/HomeView.vue:
-<pre> ```
+<pre> ``` html
 <template>
   <div>
     <h2>Bienvenido a la página de inicio</h2>
   </div>
 </template>
-
+``` </pre>
 Y configura tu router en src/router/index.js:
-
+<pre> ```
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 
