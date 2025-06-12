@@ -17,7 +17,7 @@ Este proyecto es una base inicial para comenzar a desarrollar una aplicación fr
 - [Tailwind CSS](https://tailwindcss.com/) (opcional) – Framework de utilidades CSS.
 
 ## 📁 Estructura del proyecto
-
+<pre>
 src/
 ├── assets/ # Imágenes y archivos estáticos
 ├── components/ # Componentes reutilizables
@@ -26,7 +26,7 @@ src/
 ├── store/ # Estado global (si usas Pinia)
 ├── App.vue # Componente raíz
 └── main.js # Punto de entrada principal
-
+``` </pre>
 
 # 🔧 Requisitos
 
@@ -49,13 +49,13 @@ npm run build
 
 # ✅ Ruta básica
 Crea una vista en src/views/HomeView.vue:
-<pre> ``` html
+
 <template>
   <div>
     <h2>Bienvenido a la página de inicio</h2>
   </div>
 </template>
-``` </pre>
+
 Y configura tu router en src/router/index.js:
 <pre> ```
 import { createRouter, createWebHistory } from 'vue-router'
