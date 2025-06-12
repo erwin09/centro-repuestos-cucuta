@@ -28,7 +28,7 @@ src/
 └── main.js # Punto de entrada principal
 
 
-## 🔧 Requisitos
+# 🔧 Requisitos
 
 Antes de comenzar, asegúrate de tener instalado:
 
@@ -36,12 +36,6 @@ Antes de comenzar, asegúrate de tener instalado:
 - npm (viene con Node.js)
 
 ## 📦 Instalación del proyecto
-
-# Clona este repositorio
-git clone https://github.com/tu-usuario/nombre-del-repo.git
-
-# Entra en el directorio del proyecto
-cd nombre-del-repo
 
 # Instala las dependencias
 npm install
@@ -53,7 +47,7 @@ npm run dev
 npm run build
 
 
-## ✅ Ruta básica
+# ✅ Ruta básica
 Crea una vista en src/views/HomeView.vue:
 
 <template>
