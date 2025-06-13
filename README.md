@@ -73,3 +73,15 @@ const router = createRouter({
 export default router
 
 ``` </pre>
+
+### 📦 Autoimportación de componentes con `unplugin-vue-components`
+
+Se utiliza la librería `unplugin-vue-components` para autoimportar componentes automáticamente en los archivos `.vue`, evitando tener que escribir manualmente los `import` y registros de cada componente.
+
+Esto hace que el código sea más limpio y fácil de mantener, especialmente al usar bibliotecas como Ant Design Vue.
+
+```vue
+<!-- Podemos usar directamente el componente sin importarlo -->
+<template>
+  <a-button type="primary">Aceptar</a-button>
+</template>
