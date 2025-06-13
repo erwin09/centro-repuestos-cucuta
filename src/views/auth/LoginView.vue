@@ -55,9 +55,10 @@ const onFinishFailed = errorInfo => {
 </script>
 <style scoped>
 .screen-login {
-    background-image: url('../../assets/logo-centro-repuestos.png');
-    /*background-image: url('https://wallpapers.com/images/hd/1080p-hd-astronaut-relaxing-on-moon-r747x004y6k4evcd.jpg');*/
-    background-size: cover;
+  background-image: url('../../assets/logo-centro-repuestos.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain; /* o un % si quieres ajustarlo más */
 }
 
 .full-screen {
