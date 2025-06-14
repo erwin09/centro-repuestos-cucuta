@@ -43,7 +43,7 @@ npm install
 # Ejecutar en modo desarrollo
 npm run dev
 
-# Ejecutar en modo desarrollo
+# Ejecutar en modo producción
 npm run build
 
 

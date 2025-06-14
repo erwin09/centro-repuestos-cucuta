@@ -21,7 +21,7 @@
                             <label>Contraseña</label>
                             <a-form-item name="password"
                                 :rules="[{ required: true, message: 'Este campo es obligatorio.' }]">
-                                <a-input v-model:value="formState.password" />
+                                <a-input-password v-model:value="formState.password" />
                             </a-form-item>
                         </a-col>
                     </a-row>
@@ -29,7 +29,7 @@
                         <router-link to="/forgot">Olvidaste contraseña</router-link>
                     </a-row>
                     <a-row type="flex" justify="space-around">
-                        <a-button type="primary">Iniciar Sesión</a-button>
+                        <a-button type="primary" html-type="submit">Iniciar Sesión</a-button>
                     </a-row>
                 </a-form>
             </a-col>
@@ -38,16 +38,39 @@
 </template>
 
 <script setup>
+import axios from 'axios';
+import { reactive, ref } from 'vue';
+import { useStoreApp } from '../../store/store';
 
-import { reactive } from 'vue';
 const formState = reactive({
     username: '',
     password: '',
     remember: true,
 });
+
+const store = useStoreApp()
+
 const onFinish = values => {
     console.log('Success:', values);
+    const body = {
+        name: values.username,
+        pass: values.password
+    }
+
+    store.login()
+
+    axios.post('/login', body).then(res => {
+        if (res.status == 200) {
+            // TODO puede ingresar el usuario 
+            store.login()
+        }
+    }).catch(e => {
+        console.log("Se ha producido un error.", e);
+
+    })
+
 };
+
 const onFinishFailed = errorInfo => {
     console.log('Failed:', errorInfo);
 };
@@ -55,10 +78,11 @@ const onFinishFailed = errorInfo => {
 </script>
 <style scoped>
 .screen-login {
-  background-image: url('../../assets/logo-centro-repuestos.png');
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: contain; /* o un % si quieres ajustarlo más */
+    background-image: url('../../assets/logo-centro-repuestos.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    /* o un % si quieres ajustarlo más */
 }
 
 .full-screen {

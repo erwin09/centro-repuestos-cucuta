@@ -18,7 +18,7 @@ pinia.use(({ store }) => {
   };
 
   const fromStorage = serializer.deserialize(
-    window.localStorage.getItem("piniaState")
+    window.localStorage.getItem("storeApp")
   );
 
   if (fromStorage) store.$patch(fromStorage);
@@ -26,7 +26,7 @@ pinia.use(({ store }) => {
   store.$subscribe(
     (mutation, state) => {
       window.localStorage.setItem(
-        "state",
+        "storeApp",
         serializer.serialize(
           state.hasOwnProperty("storeApp") ? state.storeApp : state
         )
