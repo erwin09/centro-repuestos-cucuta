@@ -1,14 +1,14 @@
 <template>
     <div class="header">
-    <div class="logo-menu" /> <a-menu class="menu-ppal" v-model:selectedKeys="current" mode="horizontal"
+    <div class="logo-menu" /> 
+    <a-menu class="menu-ppal" v-model:selectedKeys="current" mode="horizontal"
         @select="redirectMenu" :items="items" />
         <button @click="cerrarSesion" class="logout-btn">Cerrar sesión</button>
         </div>
 </template>
 <script setup>
 import { h, ref } from 'vue';
-import { MailOutlined, AppstoreOutlined, SettingOutlined, HomeOutlined, UserOutlined, CalendarOutlined, CarOutlined, BarsOutlined } from '@ant-design/icons-vue';
-
+import { MailOutlined, AppstoreOutlined, SettingOutlined, HomeOutlined } from '@ant-design/icons-vue';
 import { useRouter } from 'vue-router'
 import { useStoreApp } from '../../store/store';
 
@@ -25,63 +25,51 @@ const items = ref([
     },
     {
         key: '2',
-        icon: () => h(UserOutlined),
-        label: 'Usuarios',
-        title: 'Usuarios',
-        children: [
-            {
-                label: 'Lista usuarios',
-                key: '1'                
-            },
-            {
-                label: 'Registrar usuario',
-                key: '2'                
-            },
-        ]
-    },
-    {
-        key: '3',
-        icon: () => h(CalendarOutlined),
+        icon: () => h(AppstoreOutlined),
         label: 'Citas',
         title: 'Citas',
     },
     {
-        key: '4',
-        icon: () => h(CarOutlined),
-        label: 'Manteniminetos',
-        title: 'Manteniminetos',
-    },
-    {
-        key: '5',
+        key: '3',
         icon: () => h(SettingOutlined),
         label: 'Servicios',
         title: 'Servicios',
         children: [
             {
-                label: 'Lista servicios',
-                key: '1'                
+                type: 'group',
+                label: 'Item 1',
+                children: [
+                    {
+                        label: 'Option 1',
+                        key: 'setting:1',
+                    },
+                    {
+                        label: 'Option 2',
+                        key: 'setting:2',
+                    },
+                ],
             },
             {
-                label: 'Registrar servicio',
-                key: '2'                
+                type: 'group',
+                label: 'Item 2',
+                children: [
+                    {
+                        label: 'Option 3',
+                        key: 'setting:3',
+                    },
+                    {
+                        label: 'Option 4',
+                        key: 'setting:4',
+                    },
+                ],
             },
-        ]
+        ],
     },
     {
-        key: '6',
+        key: '4',
         label: 'Repuestos',
-        icon: () => h(BarsOutlined),
+        icon: () => h(SettingOutlined),
         title: 'Repuestos', 
-        children: [
-            {
-                label: 'Lista repuestos',
-                key: '1'                
-            },
-            {
-                label: 'Registrar repuestos',
-                key: '2'                
-            },
-        ]
     },
     
 ]);

@@ -4,13 +4,15 @@ import HomeView from '../views/HomeView.vue'
 import { useStoreApp } from '../store/store';
 import LoginView from '../views/auth/LoginView.vue';
 import AboutView from '../views/AboutView.vue';
+import ejercico from '../views/ejercico.vue';
 
 
 
 const routes = [
   { path: '/', component: HomeView, name: 'home', meta: { requiresAuth: true } },
   { path: '/login', name: 'login', component: LoginView },
-  { path: '/about', name: 'about', component: AboutView },
+  { path: '/cliente', name: 'about', component: AboutView, meta: {requiresAuth: true} },
+  { path: '/ejercicio', name: 'ejercicio', component: ejercico },
 ]
 
 const router = createRouter({

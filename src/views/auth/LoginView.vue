@@ -39,41 +39,76 @@
 
 <script setup>
 import axios from 'axios';
-import { reactive, ref } from 'vue';
+import { message } from 'ant-design-vue'
+import { notification } from 'ant-design-vue';
 import { useStoreApp } from '../../store/store';
+import { useRouter } from 'vue-router';
+const router = useRouter();
 
+import { reactive } from 'vue';
 const formState = reactive({
     username: '',
     password: '',
     remember: true,
 });
-
-const store = useStoreApp()
+const store = useStoreApp();
 
 const onFinish = values => {
     console.log('Success:', values);
     const body = {
-        name: values.username,
-        pass: values.password
+        Num_doc: values.username,
+        contraseña: values.password
     }
 
-    store.login()
+    axios.post('/api/auth/login', body).then(res => {
 
-    axios.post('/login', body).then(res => {
-        if (res.status == 200) {
-            // TODO puede ingresar el usuario 
-            store.login()
+        console.log('Respuesta del servidor:', res); 
+
+        if (res.status === 200) {
+            const usuario = res.data.login?.usuario;
+            const rol = usuario?.rol;
+            console.log('Rol recibido:', rol);
+
+            store.login();
+
+            switch (rol) {
+                case "administrador":
+                    router.push('/'); 
+                    break;
+                case "cliente":
+                    router.push('/cliente'); 
+                    break;
+                default:
+                    message.warning('Rol no reconocido. No se redirigió.');
+                    break;
+            }
         }
+
     }).catch(e => {
+        if (e.response && e.response.status === 401) {
+            message.error('Contraseña incorrecta');
+            notification.open({
+                message: 'Contraseña incorrecta',
+                description:
+                    'Verifique su contraseña o ¿olvidaste tu contraseña?',
+                duration: 0,
+            });
+        } else if (e.response && e.response.status === 404) {
+            message.error(e.response.data.message || 'Ocurrió un error');
+        }
+        else {
+            message.error(e.response.data.message || 'Error de conexión con el servidor');
+        }
         console.log("Se ha producido un error.", e);
 
     })
 
 };
-
 const onFinishFailed = errorInfo => {
     console.log('Failed:', errorInfo);
 };
+
+
 
 </script>
 <style scoped>
