@@ -6,12 +6,12 @@
             </a>
         </a-col>
         <a-col :xs="5" :sm="5" :md="5" :lg="5" :xl="5">
-            <a target="_blank" href="https://www.facebook.com/profile.php?id=100086538198637">
+            <a target="_blank" href="https://www.instagram.com/centrorepuestoscucuta/">
                 <InstagramOutlined class="icon-footer" />@centrorepuestoscucuta
             </a>
         </a-col>
         <a-col :xs="5" :sm="5" :md="5" :lg="5" :xl="5">
-            <a target="_blank" href="https://www.facebook.com/profile.php?id=100086538198637">
+            <a target="_blank" href="https://wa.me/3223691439">
                 <WhatsAppOutlined class="icon-footer" />
             </a>
         </a-col>

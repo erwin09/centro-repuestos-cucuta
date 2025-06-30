@@ -26,7 +26,7 @@
                         </a-col>
                     </a-row>
                     <a-row type="flex" justify="space-around">
-                        <router-link to="/forgot">Olvidaste contraseña</router-link>
+                        <router-link to="/forgot" class="enlace">Olvidaste contraseña</router-link>
                     </a-row>
                     <a-row type="flex" justify="space-around">
                         <a-button type="primary" html-type="submit">Iniciar Sesión</a-button>
@@ -69,7 +69,7 @@ const onFinish = values => {
             const rol = usuario?.rol;
             console.log('Rol recibido:', rol);
 
-            store.login();
+            store.login(rol);
 
             switch (rol) {
                 case "administrador":
@@ -86,12 +86,12 @@ const onFinish = values => {
 
     }).catch(e => {
         if (e.response && e.response.status === 401) {
-            message.error('Contraseña incorrecta');
+           // message.error('Contraseña incorrecta');
             notification.open({
                 message: 'Contraseña incorrecta',
                 description:
-                    'Verifique su contraseña o ¿olvidaste tu contraseña?',
-                duration: 0,
+                    'Verifique su contraseña, ¿olvidaste tu contraseña?',
+                duration: 4,
             });
         } else if (e.response && e.response.status === 404) {
             message.error(e.response.data.message || 'Ocurrió un error');
@@ -132,4 +132,9 @@ const onFinishFailed = errorInfo => {
     border-radius: 10px;
     background-color: rgba(246, 241, 241, 0.9);
 }
+
+.enlace {
+    color: black;
+}
+
 </style>

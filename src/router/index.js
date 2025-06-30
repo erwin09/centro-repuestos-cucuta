@@ -4,6 +4,8 @@ import HomeView from '../views/HomeView.vue'
 import { useStoreApp } from '../store/store';
 import LoginView from '../views/auth/LoginView.vue';
 import AboutView from '../views/AboutView.vue';
+import UsuarioView from '../views/UsuarioView.vue';
+import RepuestosView from '../views/RepuestosView.vue';
 import ejercico from '../views/ejercico.vue';
 
 
@@ -11,7 +13,9 @@ import ejercico from '../views/ejercico.vue';
 const routes = [
   { path: '/', component: HomeView, name: 'home', meta: { requiresAuth: true } },
   { path: '/login', name: 'login', component: LoginView },
-  { path: '/cliente', name: 'about', component: AboutView, meta: {requiresAuth: true} },
+  { path: '/about', name: 'about', component: AboutView, meta: {requiresAuth: true} },
+  { path: '/usuarios', name: 'usuarios', component: UsuarioView, meta: {requiresAuth: true} },
+  { path: '/repuestos', name: 'productos', component: RepuestosView, meta: {requiresAuth: true} },
   { path: '/ejercicio', name: 'ejercicio', component: ejercico },
 ]
 

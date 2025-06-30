@@ -18,20 +18,20 @@ const store = useStoreApp();
 const current = ref(['mail']);
 const items = ref([
     {
-        key: '/about',
+        key: '/',
         icon: () => h(HomeOutlined),
         label: 'Inicio',
         title: 'Inicio',
     },
     {
-        key: '2',
+        key: '1',
         icon: () => h(UserOutlined),
         label: 'Usuarios',
         title: 'Usuarios',
         children: [
             {
                 label: 'Lista usuarios',
-                key: '1'                
+                key: '/usuarios'                
             },
             {
                 label: 'Registrar usuario',
@@ -75,7 +75,7 @@ const items = ref([
         children: [
             {
                 label: 'Lista repuestos',
-                key: '1'                
+                key: '/repuestos'                
             },
             {
                 label: 'Registrar repuestos',
@@ -126,7 +126,7 @@ const cerrarSesion = () => {
   display: flex;
 }
 .logout-btn {
-  background-color: #ff4d4f;
+  background-color: #ff0000;
   color: white;
   border: none;
   padding: 0.4rem 0.8rem;

@@ -6,13 +6,14 @@
   }">
     <a-layout class="layout">
       <a-layout-header v-if="logged" :style="headerStyle">
-        <Header></Header>
+        <Header v-if="rol === 'administrador'" />
+        <HeaderClien v-else-if="rol === 'cliente'" />
       </a-layout-header>
       <a-divider style="margin: 2px;"></a-divider>
       <a-layout-content class="layout-content">
         <RouterView />
       </a-layout-content>
-      <a-layout-footer v-if="logged" :style="footerStyle">
+      <a-layout-footer v-if="logged && rol ==='cliente'" :style="footerStyle">
         <Footer></Footer>
       </a-layout-footer>
     </a-layout>
@@ -23,12 +24,11 @@ import esES from 'ant-design-vue/es/locale/es_ES';
 import { useStoreApp } from './store/store';
 import { computed } from 'vue';
 import Header from './components/public/Header.vue';
+import HeaderClien from './components/public/HeaderClien.vue';
 import Footer from './components/public/Footer.vue';
-
-const logged = computed(() => {
-  const store = useStoreApp()
-  return store.isAuth
-})
+const store = useStoreApp()
+const logged = computed(() => store.isAuth);
+const rol = computed(() => store.rol);
 
 const headerStyle = {
   textAlign: 'center',
