@@ -40,7 +40,6 @@
 <script setup>
 import axios from 'axios';
 import { message } from 'ant-design-vue'
-import { notification } from 'ant-design-vue';
 import { useStoreApp } from '../../store/store';
 import { useRouter } from 'vue-router';
 const router = useRouter();
@@ -86,13 +85,7 @@ const onFinish = values => {
 
     }).catch(e => {
         if (e.response && e.response.status === 401) {
-           // message.error('Contraseña incorrecta');
-            notification.open({
-                message: 'Contraseña incorrecta',
-                description:
-                    'Verifique su contraseña, ¿olvidaste tu contraseña?',
-                duration: 4,
-            });
+            message.error('Contraseña incorrecta');
         } else if (e.response && e.response.status === 404) {
             message.error(e.response.data.message || 'Ocurrió un error');
         }

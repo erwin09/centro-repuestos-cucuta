@@ -58,8 +58,13 @@
 
           <td>
             <button class="btn" @click="abrirModal(usuario)">Vehículo</button>
-            <button v-if="!usuario.editando" class="btn" @click="usuario.editando = true">Editar</button>
-            <button v-else class="btn guardar" @click="guardarCambios(usuario)">Guardar</button>
+            <template v-if="usuario.editando">
+              <button class="btn guardar" @click="guardarCambios(usuario)">Guardar</button>
+              <button class="btn cancelar" @click="cancelarEdicion(usuario)">Cancelar</button>
+            </template>
+            <template v-else>
+              <button class="btn" @click="empezarEdicion(usuario)">Editar</button>
+            </template>
           </td>
         </tr>
       </tbody>
@@ -98,10 +103,12 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import axios from 'axios'
+import { message } from 'ant-design-vue'
 
 const usuarios = ref([])
 const mostrarModal = ref(false)
 const usuarioSeleccionado = ref(null)
+const usuarioOriginal = ref({})
 
 const vehiculo = ref({ placa: '', marca: '' })
 
@@ -114,7 +121,14 @@ const cargarUsuarios = async () => {
     console.error('Error al cargar usuarios:', error)
   }
 }
-
+const empezarEdicion = (usuario) => {
+  usuarioOriginal.value = { ...usuario } // Clonamos el usuario actual
+  usuario.editando = true
+}
+const cancelarEdicion = (usuario) => {
+  Object.assign(usuario, usuarioOriginal.value)
+  usuario.editando = false
+}
 const abrirModal = (usuario) => {
   usuarioSeleccionado.value = usuario
   vehiculo.value = { placa: '', marca: '', modelo: '', color: '', tipo_motor: '' }
@@ -149,10 +163,10 @@ const guardarCambios = async (usuario) => {
       estado: usuario.estado,
     })
     usuario.editando = false
-    alert('Usuario actualizado')
+    message.success('Usuario Actualizado')
   } catch (error) {
     console.error('Error al guardar cambios:', error)
-    alert('Error al actualizar usuario')
+    message.error('Error al actualizar usuario')
   }
 }
 
@@ -173,19 +187,36 @@ onMounted(cargarUsuarios)
 
 .tabla-usuarios {
   width: 100%;
-  border-collapse: collapse;
+  background-color: #0f0f0f0a;
+  border-collapse: separate;
+  border-spacing: 0;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.tabla-usuarios thead {
+  background-color: #343a40;
+  color: #fff;
+  text-align: left;
 }
 
 .tabla-usuarios th,
 .tabla-usuarios td {
-  font-size: 100%;
-  border: 1px solid #ccc;
-  padding: 6px 8px;
-  text-align: left;
+  padding: 12px 16px;
+  border-bottom: 1px solid #ddd;
 }
 
 .tabla-usuarios th {
-  background-color: #48484862;
+  background-color: #ff0000;
+}
+
+.tabla-usuarios tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.tabla-usuarios tbody tr:hover {
+  background-color: #eef2f7;
 }
 
 input {
@@ -195,8 +226,8 @@ input {
 }
 
 .btn {
-  background-color: #000000;
-  color: rgb(255, 255, 255);
+  background-color: #e53935;
+  color: white;
   border: none;
   padding: 5px 8px;
   margin: 2px;
@@ -205,15 +236,25 @@ input {
 }
 
 .btn:hover {
-  background-color: #00000091;
+  background-color: #c62828;
 }
 
 .btn.guardar {
-  background-color: #898989fb;
+  background-color: #e53935;
+  color: white;
 }
 
 .btn.guardar:hover {
-  background-color: #727272fb;
+  background-color: #c62828;
+}
+
+.btn.cancelar {
+  background-color: #e53935;
+  color: white;
+}
+
+.btn.cancelar:hover {
+  background-color: #c62828;
 }
 
 .modal-overlay {

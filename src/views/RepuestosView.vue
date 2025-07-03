@@ -5,11 +5,14 @@
         <table class="tabla-productos">
             <thead>
                 <tr>
+                    <th>Cantidad</th>
                     <th>Codigo</th>
                     <th>Nombre</th>
                     <th>Linea</th>
                     <th>Marca</th>
-                    <th>Descripción</th>
+                    <th>Grupo de repuesto</th>
+                    <th>Proveedor</th>
+                    <th>Procedencia</th>
                     <th>Estado</th>
                     <th>Precio unitario</th>
                     <th>Acción</th>
@@ -17,32 +20,37 @@
             </thead>
             <tbody>
                 <tr v-for="producto in productos" :key="producto.Id_producto">
+                    <td>
+                    <input v-if="producto.editando" v-model="producto.cantidad" />
+                        <span v-else>{{ producto.cantidad }}</span>
+                    </td>
                     <td>{{ producto.Id_producto }}</td>
-
-                    <!-- Nombre editable -->
                     <td>
                         <input v-if="producto.editando" v-model="producto.nombre" />
                         <span v-else>{{ producto.nombre }}</span>
                     </td>
 
-                    <!-- linea editable -->
                     <td>
                         <input v-if="producto.editando" v-model="producto.linea" />
                         <span v-else>{{ producto.linea }}</span>
                     </td>
+
+                    <td><span>{{ producto.nombre_marca }}</span></td>
 
                     <!-- descripción editable -->
                     <td>
                         <input v-if="producto.editando" v-model="producto.descripcion" />
                         <span v-else>{{ producto.descripcion }}</span>
                     </td>
-                    <!-- estado editable-->
+                    <td>{{ producto.nombre_proveedor }}</td>
+
+                    <td>{{ producto.procedencia }}</td>
                     <td>
                         <select v-if="producto.editando" v-model="producto.estado">
-                            <option :value="1">Activo</option>
-                            <option :value="0">Inactivo</option>
+                            <option :value="1">Existencia</option>
+                            <option :value="0">Agotado</option>
                         </select>
-                        <span v-else>{{ producto.estado === 1 ? 'Activo' : 'Inactivo' }}</span>
+                        <span v-else>{{ producto.estado === 1 ? 'Existencia' : 'Agotado' }}</span>
                     </td>
                     <td>
                         <input v-if="producto.editando" v-model="producto.precio">
@@ -50,8 +58,13 @@
                     </td>
 
                     <td>
-                        <button v-if="!producto.editando" class="btn" @click="producto.editando = true">Editar</button>
-                        <button v-else class="btn guardar" @click="guardarCambios(producto)">Guardar</button>
+                        <template v-if="producto.editando">
+                            <button class="btn guardar" @click="guardarCambios(producto)">Guardar</button>
+                            <button class="btn cancelar" @click="cancelarEdicion(producto)">Cancelar</button>
+                        </template>
+                        <template v-else>
+                            <button class="btn" @click="empezarEdicion(producto)">Editar</button>
+                        </template>
                     </td>
                 </tr>
             </tbody>
@@ -63,41 +76,59 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import axios from 'axios'
+import { message } from 'ant-design-vue'
 
 const productos = ref([])
-//const productoSeleccionado = ref(null)
-const marcas = ref([])
+const productoOriginal = ref([])
 
-const cargarproductos = async () => {
-    try {
-        const res = await axios.get('/api/productos')
-        // Agregar campo `editando` a cada producto
-        productos.value = res.data.result.map(u => ({ ...u, editando: false }))
-    } catch (error) {
-        console.error('Error al cargar productos:', error)
-    }
+
+const cargarDatos = async () => {
+    const [prodRes] = await Promise.all([
+        axios.get('/api/productos/tabla'),
+    ])
+
+    productos.value = prodRes.data.result.map(p => ({
+        ...p,
+        editando: false
+    }))
 }
-const cargarmarcas = async () =>
 
+const empezarEdicion = (producto) => {
+    productoOriginal.value = { ...producto }
+    producto.editando = true
+}
+
+const cancelarEdicion = (producto) => {
+    Object.assign(producto, productoOriginal.value)
+    producto.editando = false
+}
 
 const guardarCambios = async (producto) => {
     try {
-        await axios.put(`api/clientes/${producto.Id_producto}`, {
-            nombre_producto: producto.nombre_producto,
+        await axios.put(`/api/productos/editar-completo/${producto.Id_producto}`, {
+            Id_producto: producto.Id_producto,
+            nombre: producto.nombre,
             linea: producto.linea,
-            telefono: producto.telefono,
-            email: producto.email,
+            descripcion: producto.descripcion,
             estado: producto.estado,
+            precio: producto.precio,
+            cantidad: Number(producto.cantidad),
+            Id_marca: producto.Id_marca,
+            Id_proveedor: producto.Id_proveedor,
         })
+
         producto.editando = false
-        alert('producto actualizado')
+        await cargarDatos();
+        message.success('producto actualizado')
+
     } catch (error) {
         console.error('Error al guardar cambios:', error)
-        alert('Error al actualizar producto')
+        message.error('Error al actualizar producto')
     }
 }
 
-onMounted(cargarproductos)
+
+onMounted(cargarDatos)
 </script>
 
 <style scoped>
@@ -114,19 +145,36 @@ onMounted(cargarproductos)
 
 .tabla-productos {
     width: 100%;
-    border-collapse: collapse;
+    background-color: #0f0f0f0a;
+    border-collapse: separate;
+    border-spacing: 0;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.tabla-productos thead {
+    background-color: #343a40;
+    color: #fff;
+    text-align: left;
 }
 
 .tabla-productos th,
 .tabla-productos td {
-    font-size: 100%;
-    border: 1px solid #ccc;
-    padding: 6px 8px;
-    text-align: left;
+    padding: 12px 16px;
+    border-bottom: 1px solid #ddd;
 }
 
 .tabla-productos th {
-    background-color: #48484862;
+    background-color: #ff0000;
+}
+
+.tabla-productos tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.tabla-productos tbody tr:hover {
+    background-color: #eef2f7;
 }
 
 input {
@@ -136,7 +184,7 @@ input {
 }
 
 .btn {
-    background-color: #ff0000;
+    background-color: #e53935;
     color: rgb(255, 255, 255);
     border: none;
     padding: 5px 8px;
@@ -146,62 +194,24 @@ input {
 }
 
 .btn:hover {
-    background-color: #cc0000;
+    background-color: #c62828;
 }
 
 .btn.guardar {
-    background-color: #898989fb;
+    background-color: #e53935;
+    color: white;
 }
 
 .btn.guardar:hover {
-    background-color: #727272fb;
+    background-color: #c62828;
 }
 
-.modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.4);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.modal {
-    background: white;
-    padding: 1.5rem;
-    border-radius: 8px;
-    width: 400px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-}
-
-.modal input {
-    width: 100%;
-    padding: 6px;
-    margin-bottom: 10px;
-    border: 1px solid #ccc;
-}
-
-.modal-botones {
-    display: flex;
-    justify-content: flex-end;
-    gap: 10px;
-}
-
-.btn-cancelar {
-    background-color: transparent;
-    border: none;
-    color: #e53935;
-    cursor: pointer;
-}
-
-.btn-guardar {
-    background-color: #ff0000;
+.btn.cancelar {
+    background-color: #e53935;
     color: white;
-    border: none;
-    padding: 5px 10px;
-    cursor: pointer;
+}
+
+.btn.cancelar:hover {
+    background-color: #c62828;
 }
 </style>

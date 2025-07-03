@@ -35,7 +35,7 @@ const items = ref([
             },
             {
                 label: 'Registrar usuario',
-                key: '2'                
+                key: '/registroUsuario'                
             },
         ]
     },
@@ -79,7 +79,7 @@ const items = ref([
             },
             {
                 label: 'Registrar repuestos',
-                key: '2'                
+                key: '/registroRepuesto'                
             },
         ]
     },
@@ -126,7 +126,7 @@ const cerrarSesion = () => {
   display: flex;
 }
 .logout-btn {
-  background-color: #ff0000;
+  background-color: #e53935;
   color: white;
   border: none;
   padding: 0.4rem 0.8rem;
@@ -135,6 +135,6 @@ const cerrarSesion = () => {
 }
 
 .logout-btn:hover {
-  background-color: #d9363e;
+  background-color: #c62828;
 }
 </style>
