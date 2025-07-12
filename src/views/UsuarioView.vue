@@ -122,7 +122,7 @@ const cargarUsuarios = async () => {
   }
 }
 const empezarEdicion = (usuario) => {
-  usuarioOriginal.value = { ...usuario } // Clonamos el usuario actual
+  usuarioOriginal.value = { ...usuario } 
   usuario.editando = true
 }
 const cancelarEdicion = (usuario) => {
@@ -255,6 +255,13 @@ input {
 
 .btn.cancelar:hover {
   background-color: #c62828;
+}
+
+input {
+  border-radius: 6px; /* Ajusta el valor según qué tan curvo lo quieras */
+  border: 1px solid #ccc;
+  padding: 8px;
+  outline: none;
 }
 
 .modal-overlay {

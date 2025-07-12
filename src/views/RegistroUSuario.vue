@@ -149,7 +149,7 @@ const registrar = async () => {
     try {
       await axios.post('/api/clientes', {
         Num_doc: form.Num_doc,
-        tip_doc: form.tip_doc,       
+        tip_doc: form.tip_doc,
         nombre_usuario: form.nombre_usuario,
         apellidos: form.apellidos,
         telefono: form.telefono,
@@ -165,7 +165,20 @@ const registrar = async () => {
 
       Object.keys(form).forEach(key => form[key] = key === 'fechaRegistro' ? null : '')
     } catch (error) {
+      console.error('Error en el registro:', error)
 
+      if (error.response) {
+        console.error('Status:', error.response.status)
+        console.error('Data:', error.response.data)
+        console.error('Headers:', error.response.headers)
+        message.error(`Error: ${error.response.data.message || 'Error al registrar el producto'}`)
+      } else if (error.request) {
+        console.error('No se recibió respuesta del servidor', error.request)
+        message.error('No se recibió respuesta del servidor')
+      } else {
+        console.error('Error al configurar la solicitud', error.message)
+        message.error('Error inesperado')
+      }
     }
 
   })

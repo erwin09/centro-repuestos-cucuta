@@ -180,6 +180,7 @@ onMounted(cargarDatos)
 input {
     width: 100%;
     padding: 4px;
+    border-radius: 6px;
     border: 1px solid #ccc;
 }
 

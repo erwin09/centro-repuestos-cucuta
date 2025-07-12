@@ -9,6 +9,10 @@ import RepuestosView from '../views/RepuestosView.vue';
 import RegistroUsuarioView from '../views/RegistroUSuario.vue';
 import ejercico from '../views/ejercico.vue';
 import RegistroRepuesto from '../views/RegistroRepuesto.vue';
+import MantenimientosView from '../views/MantenimientoView.vue';
+import ServiciosView from '../views/ServiciosView.vue';
+import NotificacionesView from '../views/NotificacionesView.vue';
+import CitasClienteView from '../views/CitasClienteView.vue';
 
 
 
@@ -21,6 +25,10 @@ const routes = [
   { path: '/ejercicio', name: 'ejercicio', component: ejercico },
   { path: '/registroUsuario', name: 'registroUsuiario', component: RegistroUsuarioView, meta: {requiresAuth: true} },
   { path: '/registroRepuesto', name: 'registroRepuesto', component: RegistroRepuesto, meta: {requiresAuth: true} },
+  { path: '/mantenimientos', name: 'mantenimientos', component: MantenimientosView, meta: {requiresAuth: true} },
+  { path: '/servicios', name: 'servicios', component: ServiciosView, meta: {requiresAuth: true} },
+  { path: '/notificaciones', name: 'notificaciones', component: NotificacionesView, meta: {requiresAuth: true} },
+  { path: '/citasCliente', name: 'citasCliente', component: CitasClienteView, meta: {requiresAuth: true} },
 ]
 
 const router = createRouter({

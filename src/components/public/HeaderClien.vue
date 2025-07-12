@@ -8,7 +8,7 @@
 </template>
 <script setup>
 import { h, ref } from 'vue';
-import { MailOutlined, AppstoreOutlined, SettingOutlined, HomeOutlined } from '@ant-design/icons-vue';
+import { CarOutlined, AppstoreOutlined, SettingOutlined, HomeOutlined } from '@ant-design/icons-vue';
 import { useRouter } from 'vue-router'
 import { useStoreApp } from '../../store/store';
 
@@ -24,7 +24,7 @@ const items = ref([
         title: 'Inicio',
     },
     {
-        key: '2',
+        key: '/citasCliente',
         icon: () => h(AppstoreOutlined),
         label: 'Citas',
         title: 'Citas',
@@ -34,36 +34,7 @@ const items = ref([
         icon: () => h(SettingOutlined),
         label: 'Servicios',
         title: 'Servicios',
-        children: [
-            {
-                type: 'group',
-                label: 'Item 1',
-                children: [
-                    {
-                        label: 'Option 1',
-                        key: 'setting:1',
-                    },
-                    {
-                        label: 'Option 2',
-                        key: 'setting:2',
-                    },
-                ],
-            },
-            {
-                type: 'group',
-                label: 'Item 2',
-                children: [
-                    {
-                        label: 'Option 3',
-                        key: 'setting:3',
-                    },
-                    {
-                        label: 'Option 4',
-                        key: 'setting:4',
-                    },
-                ],
-            },
-        ],
+        
     },
     {
         key: '4',
@@ -71,7 +42,12 @@ const items = ref([
         icon: () => h(SettingOutlined),
         title: 'Repuestos', 
     },
-    
+    {
+        key: '5',
+        icon: () => h(CarOutlined),
+        label: 'Mantenimientos',
+        title: 'Mantenimientos',
+    },
 ]);
 
 const router = useRouter()

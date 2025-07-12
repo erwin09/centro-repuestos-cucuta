@@ -7,11 +7,11 @@
       <div style="display: flex; gap: 20px">
         <!-- Columna 1 -->
         <div style="flex: 1">
-          <a-form-item label="Codigo producto" name="Id_producto">
+          <a-form-item label="Codigo del repuesto" name="Id_producto">
             <a-input v-model:value="form.Id_producto" placeholder="Ingresa codigo" />
           </a-form-item>
 
-          <a-form-item label="Nombre producto" name="nombre">
+          <a-form-item label="Nombre del repuesto" name="nombre">
             <a-input v-model:value="form.nombre" placeholder="Ingresa nombre" />
           </a-form-item>
 
@@ -45,7 +45,7 @@
           <a-form-item label="Proveedor" name="Id_proveedor">
             <a-select v-model:value="form.Id_proveedor" placeholder="Seleccione proveedor" :allowClear="true"
               @change="handleProveedorChange">
-              <a-select-option v-for="p in proveedores" :key="p.Id_proveedor" :value="p.Id_proveedor">
+              <a-select-option v-for="p in proveedores" :key="p.Id_proveedor" :value="String(p.Id_proveedor)">
                 {{ p.nombre }}
               </a-select-option>
               <a-select-option value="__nuevo_proveedor__">+ Nuevo proveedor</a-select-option>
@@ -84,8 +84,33 @@
       </a-form-item>
 
       <div style="text-align: right; margin-top: 1rem">
-        <a-button @click="showModalMarca.value = false" style="margin-right: 10px">Cancelar</a-button>
+        <a-button @click="showModalMarca = false" style="margin-right: 10px">Cancelar</a-button>
         <a-button type="primary" @click="crearMarca">Guardar marca</a-button>
+      </div>
+    </a-form>
+  </a-modal>
+
+  <a-modal v-model:open="showModalProveedor" title="Crear nuevo proveedor" :footer="null">
+    <a-form layout="vertical">
+      <a-form-item label="Código proveedor">
+        <a-input v-model:value="nuevoProovedor.Id_proveedor" />
+      </a-form-item>
+      <a-form-item label="Nombre">
+        <a-input v-model:value="nuevoProovedor.nombre" />
+      </a-form-item>
+      <a-form-item label="Telefono">
+        <a-input v-model:value="nuevoProovedor.telefono" />
+      </a-form-item>
+      <a-form-item label="Email">
+        <a-input v-model:value="nuevoProovedor.email" />
+      </a-form-item>
+      <a-form-item label="Ciudad">
+        <a-input v-model:value="nuevoProovedor.ciudad" />
+      </a-form-item>
+
+      <div style="text-align: right; margin-top: 1rem">
+        <a-button @click="showModalProveedor = false" style="margin-right: 10px">Cancelar</a-button>
+        <a-button type="primary" @click="crearProveedor">Guardar proveedor</a-button>
       </div>
     </a-form>
   </a-modal>
@@ -112,6 +137,7 @@ onMounted(async () => {
 
     const resProveedores = await axios.get('/api/proveedores')
     proveedores.value = resProveedores.data.result
+    console.log("proveedores", proveedores.value);
   } catch (error) {
     message.error('Error al cargar marcas o proveedores')
   }
@@ -120,7 +146,7 @@ onMounted(async () => {
 const handleMarcaChange = (value) => {
   if (value === '__nueva_marca__') {
     showModalMarca.value = true
-    form.Id_marca = null // limpiar
+    form.Id_marca = null
   }
 }
 
@@ -158,32 +184,51 @@ const crearMarca = async () => {
   }
 };
 
-const form = reactive({
-  Id_producto: '',
-  nombre: '',
-  linea: '',
-  descripcion: '',
-  cantidad: '',
-  Id_marca: null,
-  Id_proveedor: null,
-  estado: null,
-  precio: ''
-})
+const nuevoProovedor = reactive({ Id_proveedor: '', nombre: '', telefono: '', email: '', ciudad: '' })
+
+const crearProveedor = async () => {
+  try {
+    const res = await axios.post('/api/proveedores', nuevoProovedor);
+
+    const nueva = res.data.result;
+    console.log("nuevo proveedor", nueva);
+
+    proveedores.value.push({ ...nueva, Id_proveedor: String(nueva.Id_proveedor) });
+
+    form.Id_proveedor = String(nueva.Id_proveedor);
+
+    await formRef.value?.clearValidate?.(['Id_proveedor']);
+
+    showModalProveedor.value = false;
+
+    nuevoProovedor.Id_proveedor = '';
+    nuevoProovedor.nombre = '';
+    nuevoProovedor.telefono = '';
+    nuevoProovedor.email = '';
+    nuevoProovedor.ciudad = '';
+
+    message.success('Proveedor creado');
+  } catch (err) {
+    message.error('Error al crear el proveedor');
+  }
+};
+
+
 
 // validaciones ponemos campo obligatorio y solamente el tipo de dato 
 const rules = {
   Id_producto: [{ required: true, message: 'El codigo es requerido', trigger: 'blur' },
-  { pattern: /^[A-Za-z0-9ÁÉÍÓÚáéíóúñÑ\s\-_]+$/, message: 'Solo letras y numeros', trigger: 'blur' }
+  { pattern: /^[A-Za-z0-9ÁÉÍÓÚáéíóúñÑ\s.,;:()!?¿¡\-_/]+$/, message: 'Solo letras y numeros', trigger: 'blur' }
   ],
   nombre: [{ required: true, message: 'El nombre es requerido', trigger: 'blur' },
-  { pattern: /^[A-Za-z0-9ÁÉÍÓÚáéíóúñÑ\s\-_]+$/, message: 'Solo letras y numeros', trigger: 'blur' }
+  { pattern: /^[A-Za-z0-9ÁÉÍÓÚáéíóúñÑ\s.,;:()!?¿¡\-_/]+$/, message: 'Solo letras y numeros', trigger: 'blur' }
   ],
   linea: [{ required: true, message: 'La linea es requerida', trigger: 'blur' },
-  { pattern: /^[A-Za-z0-9ÁÉÍÓÚáéíóúñÑ\s\-_]+$/, message: 'Solo letras y numeros', trigger: 'blur' }
+  { pattern: /^[A-Za-z0-9ÁÉÍÓÚáéíóúñÑ\s.,;:()!?¿¡\-_/]+$/, message: 'Solo letras y numeros', trigger: 'blur' }
   ],
   descripcion: [
     { required: true, message: 'Las caracteristicas son requeridas', trigger: 'blur' },
-    { pattern: /^[A-Za-z0-9ÁÉÍÓÚáéíóúñÑ\s\-_]+$/, message: 'Solo letras y numeros', trigger: 'blur' }
+    { pattern: /^[A-Za-z0-9ÁÉÍÓÚáéíóúñÑ\s.,;:()!?¿¡\-_/]+$/, message: 'Solo letras y numeros', trigger: 'blur' }
   ],
 
   cantidad: [{ required: true, message: 'La cantidad es requerida', trigger: 'blur' },
@@ -200,25 +245,52 @@ const rules = {
   ],
 }
 
+const form = reactive({
+  Id_producto: '',
+  nombre: '',
+  linea: '',
+  descripcion: '',
+  cantidad: '',
+  Id_marca: null,
+  Id_proveedor: null,
+  estado: null,
+  precio: ''
+})
+
 
 const registrar = async () => {
   formRef.value.validate().then(async () => {
     console.log(' Formulario válido:', form)
-
+    
     try {
-      await axios.post('/api/productos', {
+      await axios.post('/api/productos/crearcompleto', {
         Id_producto: form.Id_producto,
         nombre: form.nombre,
         linea: form.linea,
         descripcion: form.descripcion,
-        telefono: form.telefono,
         estado: Number(form.estado),
+        cantidad: Number(form.cantidad),
         precio: Number(form.precio),
+        Id_marca: form.Id_marca,
+        Id_proveedor: form.Id_proveedor,
       })
 
       message.success(' Registro exitoso')
     } catch (error) {
+      console.error('Error en el registro:', error)
 
+      if (error.response) {
+        console.error('Status:', error.response.status)
+        console.error('Data:', error.response.data)
+        console.error('Headers:', error.response.headers)
+        message.error(`Error: ${error.response.data.message || 'Error al registrar el producto'}`)
+      } else if (error.request) {
+        console.error('No se recibió respuesta del servidor', error.request)
+        message.error('No se recibió respuesta del servidor')
+      } else {
+        console.error('Error al configurar la solicitud', error.message)
+        message.error('Error inesperado')
+      }
     }
 
   })

@@ -7,7 +7,7 @@
 </template>
 <script setup>
 import { h, ref } from 'vue';
-import { MailOutlined, AppstoreOutlined, SettingOutlined, HomeOutlined, UserOutlined, CalendarOutlined, CarOutlined, BarsOutlined } from '@ant-design/icons-vue';
+import { NotificationOutlined, SettingOutlined, HomeOutlined, UserOutlined, CalendarOutlined, CarOutlined, BarsOutlined } from '@ant-design/icons-vue';
 
 import { useRouter } from 'vue-router'
 import { useStoreApp } from '../../store/store';
@@ -46,26 +46,16 @@ const items = ref([
         title: 'Citas',
     },
     {
-        key: '4',
+        key: '/mantenimientos',
         icon: () => h(CarOutlined),
-        label: 'Manteniminetos',
-        title: 'Manteniminetos',
+        label: 'Mantenimientos',
+        title: 'Mantenimientos',
     },
     {
-        key: '5',
+        key: '/servicios',
         icon: () => h(SettingOutlined),
         label: 'Servicios',
         title: 'Servicios',
-        children: [
-            {
-                label: 'Lista servicios',
-                key: '1'                
-            },
-            {
-                label: 'Registrar servicio',
-                key: '2'                
-            },
-        ]
     },
     {
         key: '6',
@@ -83,6 +73,12 @@ const items = ref([
             },
         ]
     },
+    {
+        key: '/notificaciones',
+        icon: () => h(NotificationOutlined),
+        label: 'Notificaciones',
+        title: 'Notificaciones',
+    },
     
 ]);
 
@@ -93,9 +89,9 @@ const redirectMenu = (e) => {
     router.push(e.key)
 }
 const cerrarSesion = () => {
-  store.$reset()            // Resetea el estado de autenticación
-  localStorage.clear()      // Limpia el localStorage
-  router.push('/login')     // Redirige al login
+  store.$reset()           
+  localStorage.clear()      
+  router.push('/login')     
 }
 </script>
 <style>
