@@ -42,7 +42,7 @@ const headerStyle = {
 const footerStyle = {
   textAlign: 'center',
   color: '#fff',
-  backgroundColor: '#fff',
+  backgroundColor: '#000000c7'
 };
 
 </script>
