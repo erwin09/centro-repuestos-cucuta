@@ -79,9 +79,9 @@ button:focus-visible {
 /* TEMA */
 
 :root {
-  --ant-primary-color: #FF5722;
-  --heading-color: #FF5722;
-  --link-color: #FF5722;
+  --ant-primary-color: #ff0000;
+  --heading-color: #ff0000;
+  --link-color: #ff0000;
   --link-hover-color: #d84315;
 }
 

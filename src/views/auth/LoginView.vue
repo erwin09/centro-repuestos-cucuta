@@ -26,7 +26,7 @@
                         </a-col>
                     </a-row>
                     <a-row type="flex" justify="space-around">
-                        <router-link to="/forgot">Olvidaste contraseña</router-link>
+                        <router-link to="/forgot" class="enlace">Olvidaste contraseña</router-link>
                     </a-row>
                     <a-row type="flex" justify="space-around">
                         <a-button type="primary" html-type="submit">Iniciar Sesión</a-button>
@@ -39,41 +39,69 @@
 
 <script setup>
 import axios from 'axios';
-import { reactive, ref } from 'vue';
+import { message } from 'ant-design-vue'
 import { useStoreApp } from '../../store/store';
+import { useRouter } from 'vue-router';
+const router = useRouter();
 
+import { reactive } from 'vue';
 const formState = reactive({
     username: '',
     password: '',
     remember: true,
 });
-
-const store = useStoreApp()
+const store = useStoreApp();
 
 const onFinish = values => {
     console.log('Success:', values);
     const body = {
-        name: values.username,
-        pass: values.password
+        Num_doc: values.username,
+        contraseña: values.password
     }
 
-    store.login()
+    axios.post('/api/auth/login', body).then(res => {
 
-    axios.post('/login', body).then(res => {
-        if (res.status == 200) {
-            // TODO puede ingresar el usuario 
-            store.login()
+        console.log('Respuesta del servidor:', res); 
+
+        if (res.status === 200) {
+            const usuario = res.data.login?.usuario;
+            const rol = usuario?.rol;
+            console.log('Rol recibido:', rol);
+
+            store.login(rol);
+
+            switch (rol) {
+                case "administrador":
+                    router.push('/'); 
+                    break;
+                case "cliente":
+                    router.push('/cliente'); 
+                    break;
+                default:
+                    message.warning('Rol no reconocido. No se redirigió.');
+                    break;
+            }
         }
+
     }).catch(e => {
+        if (e.response && e.response.status === 401) {
+            message.error('Contraseña incorrecta');
+        } else if (e.response && e.response.status === 404) {
+            message.error(e.response.data.message || 'Ocurrió un error');
+        }
+        else {
+            message.error(e.response.data.message || 'Error de conexión con el servidor');
+        }
         console.log("Se ha producido un error.", e);
 
     })
 
 };
-
 const onFinishFailed = errorInfo => {
     console.log('Failed:', errorInfo);
 };
+
+
 
 </script>
 <style scoped>
@@ -97,4 +125,9 @@ const onFinishFailed = errorInfo => {
     border-radius: 10px;
     background-color: rgba(246, 241, 241, 0.9);
 }
+
+.enlace {
+    color: black;
+}
+
 </style>

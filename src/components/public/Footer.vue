@@ -27,8 +27,7 @@
                     <WhatsAppOutlined class="icon-footer" />
                 </a>
             </div>
-
-        </a-col>
+       </a-col>
     </a-row>
 </template>
 <script setup>

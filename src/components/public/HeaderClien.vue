@@ -1,14 +1,14 @@
 <template>
     <div class="header">
-    <div class="logo-menu" /> <a-menu class="menu-ppal" v-model:selectedKeys="current" mode="horizontal"
+    <div class="logo-menu" /> 
+    <a-menu class="menu-ppal" v-model:selectedKeys="current" mode="horizontal"
         @select="redirectMenu" :items="items" />
         <button @click="cerrarSesion" class="logout-btn">Cerrar sesión</button>
         </div>
 </template>
 <script setup>
 import { h, ref } from 'vue';
-import { NotificationOutlined, SettingOutlined, HomeOutlined, UserOutlined, CalendarOutlined, CarOutlined, BarsOutlined } from '@ant-design/icons-vue';
-
+import { CarOutlined, AppstoreOutlined, SettingOutlined, HomeOutlined } from '@ant-design/icons-vue';
 import { useRouter } from 'vue-router'
 import { useStoreApp } from '../../store/store';
 
@@ -18,68 +18,36 @@ const store = useStoreApp();
 const current = ref(['mail']);
 const items = ref([
     {
-        key: '/',
+        key: '/about',
         icon: () => h(HomeOutlined),
         label: 'Inicio',
         title: 'Inicio',
     },
     {
-        key: '1',
-        icon: () => h(UserOutlined),
-        label: 'Usuarios',
-        title: 'Usuarios',
-        children: [
-            {
-                label: 'Lista usuarios',
-                key: '/usuarios'                
-            },
-            {
-                label: 'Registrar usuario',
-                key: '/registroUsuario'                
-            },
-        ]
-    },
-    {
-        key: '3',
-        icon: () => h(CalendarOutlined),
+        key: '/citasCliente',
+        icon: () => h(AppstoreOutlined),
         label: 'Citas',
         title: 'Citas',
     },
     {
-        key: '/mantenimientos',
+        key: '3',
+        icon: () => h(SettingOutlined),
+        label: 'Servicios',
+        title: 'Servicios',
+        
+    },
+    {
+        key: '4',
+        label: 'Repuestos',
+        icon: () => h(SettingOutlined),
+        title: 'Repuestos', 
+    },
+    {
+        key: '5',
         icon: () => h(CarOutlined),
         label: 'Mantenimientos',
         title: 'Mantenimientos',
     },
-    {
-        key: '/servicios',
-        icon: () => h(SettingOutlined),
-        label: 'Servicios',
-        title: 'Servicios',
-    },
-    {
-        key: '6',
-        label: 'Repuestos',
-        icon: () => h(BarsOutlined),
-        title: 'Repuestos', 
-        children: [
-            {
-                label: 'Lista repuestos',
-                key: '/repuestos'                
-            },
-            {
-                label: 'Registrar repuestos',
-                key: '/registroRepuesto'                
-            },
-        ]
-    },
-    {
-        key: '/notificaciones',
-        icon: () => h(NotificationOutlined),
-        label: 'Notificaciones',
-        title: 'Notificaciones',
-    },
-    
 ]);
 
 const router = useRouter()
@@ -89,9 +57,9 @@ const redirectMenu = (e) => {
     router.push(e.key)
 }
 const cerrarSesion = () => {
-  store.$reset()           
-  localStorage.clear()      
-  router.push('/login')     
+  store.$reset()            // Resetea el estado de autenticación
+  localStorage.clear()      // Limpia el localStorage
+  router.push('/login')     // Redirige al login
 }
 </script>
 <style>
@@ -122,7 +90,7 @@ const cerrarSesion = () => {
   display: flex;
 }
 .logout-btn {
-  background-color: #e53935;
+  background-color: #ff4d4f;
   color: white;
   border: none;
   padding: 0.4rem 0.8rem;
@@ -131,6 +99,6 @@ const cerrarSesion = () => {
 }
 
 .logout-btn:hover {
-  background-color: #c62828;
+  background-color: #d9363e;
 }
 </style>
