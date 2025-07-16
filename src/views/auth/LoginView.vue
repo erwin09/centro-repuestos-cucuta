@@ -66,16 +66,17 @@ const onFinish = values => {
         if (res.status === 200) {
             const usuario = res.data.login?.usuario;
             const rol = usuario?.rol;
+            const Num_doc = usuario?.Num_doc;
             console.log('Rol recibido:', rol);
 
-            store.login(rol);
+            store.login(rol, Num_doc);
 
             switch (rol) {
                 case "administrador":
                     router.push('/'); 
                     break;
                 case "cliente":
-                    router.push('/cliente'); 
+                    router.push('/HomeClient'); 
                     break;
                 default:
                     message.warning('Rol no reconocido. No se redirigió.');

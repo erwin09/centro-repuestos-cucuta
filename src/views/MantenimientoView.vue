@@ -313,8 +313,10 @@ console.log("datos del backend servicio", servicios.value);
 
 const cargarVehiculosCliente = async (Num_doc) => {
   try {
-    const res = await axios.get(`/api/vehiculos/placa/${Num_doc}`)
+    const res = await axios.get(`/api/vehiculos/usuario/${Num_doc}`)
     vehiculos.value = res.data || []
+    console.log("vehiculos", vehiculos.value);
+    
   } catch (error) {
     message.error('Error al cargar vehículos del cliente')
   }
@@ -438,5 +440,13 @@ onMounted(() => {
   max-width: 900px;
   margin: auto;
   padding: 2rem;
+}
+
+::v-deep(.ant-table-thead > tr > th) {
+    background-color: #ff0000 !important;
+    /* rojo fuerte */
+    color: white !important;
+    text-align: center;
+    font-weight: bold;
 }
 </style>

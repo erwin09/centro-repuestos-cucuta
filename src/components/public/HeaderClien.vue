@@ -18,7 +18,7 @@ const store = useStoreApp();
 const current = ref(['mail']);
 const items = ref([
     {
-        key: '/about',
+        key: '/HomeClient',
         icon: () => h(HomeOutlined),
         label: 'Inicio',
         title: 'Inicio',
@@ -30,20 +30,20 @@ const items = ref([
         title: 'Citas',
     },
     {
-        key: '3',
+        key: '/serviciosCliente',
         icon: () => h(SettingOutlined),
         label: 'Servicios',
         title: 'Servicios',
         
     },
     {
-        key: '4',
+        key: '/repuestosCliente',
         label: 'Repuestos',
         icon: () => h(SettingOutlined),
         title: 'Repuestos', 
     },
     {
-        key: '5',
+        key: '/mantenimientosCliente',
         icon: () => h(CarOutlined),
         label: 'Mantenimientos',
         title: 'Mantenimientos',

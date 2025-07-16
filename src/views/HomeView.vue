@@ -1,6 +1,4 @@
 <template>
-  <Carrousel></Carrousel>
-
   <div>
     <h1 style="text-align: center;">Estadisticas servicios</h1>
   </div>
@@ -35,11 +33,9 @@
     </a-table>
   </div>
 
-
 </template>
 
 <script lang="ts" setup>
-import Carrousel from '../components/public/Carrousel.vue';
 
 import { DownOutlined, CalendarOutlined } from '@ant-design/icons-vue';
 const columns = [

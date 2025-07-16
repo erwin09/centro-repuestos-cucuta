@@ -13,6 +13,11 @@ import MantenimientosView from '../views/MantenimientoView.vue';
 import ServiciosView from '../views/ServiciosView.vue';
 import NotificacionesView from '../views/NotificacionesView.vue';
 import CitasClienteView from '../views/CitasClienteView.vue';
+import HomeClientView from '../views/HomeClientView.vue';
+import ServiciosClienteView from '../views/ServiciosClienteView.vue';
+import RepuestosClienteView from '../views/RepuestosClienteView.vue';
+import MantenimientosClienteView from '../views/MantenimientosClienteView.vue';
+import CitasView from '../views/CitasView.vue';
 
 
 
@@ -29,6 +34,11 @@ const routes = [
   { path: '/servicios', name: 'servicios', component: ServiciosView, meta: {requiresAuth: true} },
   { path: '/notificaciones', name: 'notificaciones', component: NotificacionesView, meta: {requiresAuth: true} },
   { path: '/citasCliente', name: 'citasCliente', component: CitasClienteView, meta: {requiresAuth: true} },
+  { path: '/HomeClient', name: 'homeCliente', component: HomeClientView, meta: {requiresAuth: true} },
+  { path: '/serviciosCliente', name: 'serviciosCliente', component: ServiciosClienteView, meta: {requiresAuth: true} },
+  { path: '/repuestosCliente', name: 'repuestosCliente', component: RepuestosClienteView, meta: {requiresAuth: true} },
+  { path: '/mantenimientosCliente', name: 'mantenimientoCliente', component: MantenimientosClienteView, meta: {requiresAuth: true} },
+  { path: '/citas', name: 'citas', component: CitasView, meta: {requiresAuth: true} },
 ]
 
 const router = createRouter({

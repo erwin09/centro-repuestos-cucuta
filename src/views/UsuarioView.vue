@@ -145,11 +145,11 @@ const registrarVehiculo = async () => {
       ...vehiculo.value,
       ID_usuario: usuarioSeleccionado.value.Num_doc
     })
-    alert('Vehículo registrado')
+    message.success('Vehículo registrado')
     cerrarModal()
   } catch (error) {
     console.error('Error al registrar vehículo:', error)
-    alert('Error al registrar vehículo')
+    message.error('Error al registrar vehículo')
   }
 }
 

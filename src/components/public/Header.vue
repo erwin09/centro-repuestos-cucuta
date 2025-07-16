@@ -40,7 +40,7 @@ const items = ref([
         ]
     },
     {
-        key: '3',
+        key: '/citas',
         icon: () => h(CalendarOutlined),
         label: 'Citas',
         title: 'Citas',

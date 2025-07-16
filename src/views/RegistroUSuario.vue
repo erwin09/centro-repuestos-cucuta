@@ -52,7 +52,7 @@
 
           <a-form-item label="Rol" name="rol">
             <a-select v-model:value="form.rol" placeholder="Selecciona un rol">
-              <a-select-option value="usuario">Usuario</a-select-option>
+              <a-select-option value="cliente">Cliente</a-select-option>
               <a-select-option value="administrador">Administrador</a-select-option>
             </a-select>
           </a-form-item>
