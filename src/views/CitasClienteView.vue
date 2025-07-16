@@ -13,14 +13,8 @@
             </a-select>
           </a-form-item>
 
-          <a-form-item label="Servicios" name="servicios">
-            <a-select v-model:value="form.nombre" placeholder="Selecciona servicio">
-              <a-select-option value="Revisión de freno">Revisión de freno</a-select-option>
-              <a-select-option value="Revisión de suspensión">Revisión de suspensión</a-select-option>
-              <a-select-option value="Cambio de aceite">Cambio de aceite</a-select-option>
-              <a-select-option value="Sincronización">Sincronización</a-select-option>
-              <a-select-option value="Revisión del embrague">Revisión del embrague</a-select-option>
-            </a-select>
+          <a-form-item label="Servicio" name="servicio">
+            <a-input v-model:value="form.nombre" placeholder="Escribe su inconveniente" />
           </a-form-item>
 
           <a-form-item label="Fecha">
@@ -73,7 +67,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted} from 'vue';
+import { ref, onMounted } from 'vue';
 import axios from 'axios';
 import { useStoreApp } from '../store/store'
 import { message } from 'ant-design-vue';

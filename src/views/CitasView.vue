@@ -11,6 +11,7 @@
         <tr>
           <th>Código Cita</th>
           <th>Placa</th>
+          <th>Vehículo</th>
           <th>Servicio</th>
           <th>Fecha</th>
           <th>Estado</th>
@@ -21,6 +22,7 @@
         <tr v-for="cita in citasFiltradas" :key="cita.Id_cita">
           <td>{{ cita.codigo }}</td>
           <td>{{ cita.placa }}</td>
+          <td>{{ cita.marca }}</td>
           <td>{{ cita.nombre }}</td>
           <td>{{ formatearFecha(cita.fecha) }}</td>
           <td>
