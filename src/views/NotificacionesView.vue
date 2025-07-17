@@ -99,7 +99,7 @@ const cargarDatos = async () => {
         ...n,
         editando: false
     }))
-    .sort((a, b) => b.Id_notificacion.localeCompare(a.Id_notificacion))
+    .sort((a, b) => a.Id_notificacion.localeCompare(b.Id_notificacion))
 }
 
 const empezarEdicion = (notificacion) => {
