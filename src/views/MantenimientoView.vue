@@ -410,7 +410,7 @@ const resetearFormulario = async () => {
   form.observaciones = ''
   form.productos = []
   form.servicios = []
-  form.notificacion = []
+  form.notificaciones = []
 
   nuevoRepuesto.id = null
   nuevoRepuesto.cantidad = 1
