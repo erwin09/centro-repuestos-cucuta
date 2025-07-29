@@ -25,9 +25,11 @@
                             </a-form-item>
                         </a-col>
                     </a-row>
-                    <a-row type="flex" justify="space-around">
-                        <router-link to="/forgot" class="enlace">Olvidaste contraseña</router-link>
-                    </a-row>
+                    <div style="text-align: right; margin-top: 10px;">
+                        <a-button type="link" @click="modalRef?.abrirModal()">¿Olvidaste tu contraseña?</a-button>
+                    </div>
+                    <OlvideContraseñaModal ref="modalRef" />
+
                     <a-row type="flex" justify="space-around">
                         <a-button type="primary" html-type="submit">Iniciar Sesión</a-button>
                     </a-row>
@@ -43,6 +45,10 @@ import { message } from 'ant-design-vue'
 import { useStoreApp } from '../../store/store';
 import { useRouter } from 'vue-router';
 const router = useRouter();
+import { ref } from 'vue'
+import OlvideContraseñaModal from '../../components/OlvideContrasenaModal.vue'
+
+const modalRef = ref(null)
 
 import { reactive } from 'vue';
 const formState = reactive({
@@ -61,7 +67,7 @@ const onFinish = values => {
 
     axios.post('/api/auth/login', body).then(res => {
 
-        console.log('Respuesta del servidor:', res); 
+        console.log('Respuesta del servidor:', res);
 
         if (res.status === 200) {
             const usuario = res.data.login?.usuario;
@@ -73,10 +79,10 @@ const onFinish = values => {
 
             switch (rol) {
                 case "administrador":
-                    router.push('/'); 
+                    router.push('/');
                     break;
                 case "cliente":
-                    router.push('/HomeClient'); 
+                    router.push('/HomeClient');
                     break;
                 default:
                     message.warning('Rol no reconocido. No se redirigió.');
@@ -88,6 +94,8 @@ const onFinish = values => {
         if (e.response && e.response.status === 401) {
             message.error('Contraseña incorrecta');
         } else if (e.response && e.response.status === 404) {
+            message.error(e.response.data.message || 'Ocurrió un error');
+        } else if (e.response && e.response.status === 403) {
             message.error(e.response.data.message || 'Ocurrió un error');
         }
         else {
@@ -130,5 +138,4 @@ const onFinishFailed = errorInfo => {
 .enlace {
     color: black;
 }
-
 </style>
