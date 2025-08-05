@@ -21,7 +21,8 @@
             <tbody>
                 <tr v-for="producto in productos" :key="producto.Id_producto">
                     <td>
-                    <input v-if="producto.editando" v-model="producto.cantidad" />
+                        <input v-if="producto.editando" v-model.number="producto.cantidad" type="number" min="0"
+                            step="0.01" @input="validarNumeroPositivo(producto, 'cantidad')"/>
                         <span v-else>{{ producto.cantidad }}</span>
                     </td>
                     <td>{{ producto.Id_producto }}</td>
@@ -53,7 +54,8 @@
                         <span v-else>{{ producto.estado === 1 ? 'Existencia' : 'Agotado' }}</span>
                     </td>
                     <td>
-                        <input v-if="producto.editando" v-model="producto.precio">
+                        <input v-if="producto.editando" v-model.number="producto.precio" type="number" min="0"
+                            step="0.01" @input="validarNumeroPositivo(producto, 'precio')">
                         <span v-else>{{ producto.precio }}</span>
                     </td>
 
@@ -91,6 +93,13 @@ const cargarDatos = async () => {
         ...p,
         editando: false
     }))
+}
+
+const validarNumeroPositivo = (producto, campo) => {
+    if (producto[campo] < 0) {
+        producto[campo] = 0;
+        message.warning(`El valor de ${campo} no puede ser negativo`);
+    }
 }
 
 const empezarEdicion = (producto) => {

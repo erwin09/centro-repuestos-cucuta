@@ -22,7 +22,8 @@
                     </td>
 
                     <td>
-                        <input v-if="servicio.editando" v-model="servicio.precio" />
+                        <input v-if="servicio.editando" v-model.number="servicio.precio" type="number" min="0"
+                            step="0.01"  @input="validarNumeroPositivo(servicio, 'precio')"/>
                         <span v-else>{{ servicio.precio }}</span>
                     </td>
 
@@ -110,7 +111,7 @@ const cargarDatos = async () => {
         ...s,
         editando: false
     }))
-    .sort((a, b) => a.Id_servicios.localeCompare(b.Id_servicios))
+        .sort((a, b) => a.Id_servicios.localeCompare(b.Id_servicios))
 }
 
 const empezarEdicion = (servicio) => {
@@ -121,6 +122,13 @@ const empezarEdicion = (servicio) => {
 const cancelarEdicion = (servicio) => {
     Object.assign(servicio, servicioOriginal.value)
     servicio.editando = false
+}
+
+const validarNumeroPositivo = (servicio, campo) => {
+    if (servicio[campo] < 0) {
+        servicio[campo] = 0;
+        message.warning(`El valor de ${campo} no puede ser negativo`);
+    }
 }
 
 const guardarCambios = async (servicio) => {
@@ -143,11 +151,11 @@ const guardarCambios = async (servicio) => {
     }
 }
 const servicio = ref({
-  Id_servicios: '',
-  nombre: '',
-  precio: '',
-  tiempo_estimado: '',
-  descripcion: ''
+    Id_servicios: '',
+    nombre: '',
+    precio: '',
+    tiempo_estimado: '',
+    descripcion: ''
 })
 
 const abrirModal = () => {
@@ -192,10 +200,10 @@ onMounted(cargarDatos)
 
 input,
 textarea {
-  border-radius: 6px; 
-  border: 1px solid #ccc;
-  padding: 8px;
-  outline: none;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    padding: 8px;
+    outline: none;
 }
 
 .servicios-container {

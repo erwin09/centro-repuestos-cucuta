@@ -53,7 +53,7 @@
               <td>{{ cita.estado }}</td>
 
               <td>
-                <template v-if="cita.estado !== 'cancelado'">
+                <template v-if="cita.estado !== 'cancelado' && cita.estado !== 'cumplida' && cita.estado !== 'incumplida'">
                   <button class="btn cancelar" @click="cancelarEdicion(cita)">Cancelar</button>
                 </template>
               </td>

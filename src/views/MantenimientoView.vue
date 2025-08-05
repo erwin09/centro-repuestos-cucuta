@@ -51,7 +51,7 @@
             <a-input v-model:value="nuevoServicio.tecnico" min="1" style="width: 100%" />
           </a-form-item>
           <a-form-item label="Precio">
-            <a-input-number v-model:value="nuevoServicio.precio" min="0" style="width: 100%" />
+            <a-input-number v-model:value="nuevoServicio.precio" min="0" style="width: 100%" @keypress="validarInputPrecio"/>
           </a-form-item>
         </a-form>
       </a-modal>
@@ -74,10 +74,10 @@
               :filter-option="(input, option) => option.label.toLowerCase().includes(input.toLowerCase())" />
           </a-form-item>
           <a-form-item label="Cantidad">
-            <a-input-number v-model:value="nuevoRepuesto.cantidad" min="1" style="width: 100%" />
+            <a-input-number v-model:value="nuevoRepuesto.cantidad" min="1" style="width: 100%" @keypress="validarInputPrecio"/>
           </a-form-item>
           <a-form-item label="Precio">
-            <a-input-number v-model:value="nuevoRepuesto.precio" min="0" style="width: 100%" />
+            <a-input-number v-model:value="nuevoRepuesto.precio" min="0" style="width: 100%" @keypress="validarInputPrecio"/>
           </a-form-item>
         </a-form>
       </a-modal>
@@ -319,6 +319,30 @@ const cargarVehiculosCliente = async (Num_doc) => {
     
   } catch (error) {
     message.error('Error al cargar vehículos del cliente')
+  }
+}
+
+const validarInputPrecio = (e) => {
+  evitarLetras(e)
+  validarNumero(nuevoRepuesto, 'precio', 0)
+}
+
+const validarNumero = (objeto, campo, minimo) => {
+  const valor = objeto[campo]
+
+  // Si no es número o es negativo, corregir
+  if (typeof valor !== 'number' || isNaN(valor) || valor < minimo) {
+    objeto[campo] = minimo
+    message.warning(`El valor de "${campo}" no puede ser menor a ${minimo}`)
+  }
+}
+
+const evitarLetras = (event) => {
+  const char = String.fromCharCode(event.keyCode);
+  const regex = /[0-9.]/
+
+  if (!regex.test(char)) {
+    event.preventDefault();
   }
 }
 

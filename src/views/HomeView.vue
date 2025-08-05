@@ -47,7 +47,8 @@ const formatearFecha = fecha => {
   return new Intl.DateTimeFormat('es-CO').format(new Date(fecha))
 }
 
-// 📊 Columnas de la tabla
+
+// Columnas de la tabla
 const columns = [
   { title: 'Fecha', dataIndex: 'fecha', key: 'fecha', customRender: ({ text }) => formatearFecha(text) },
   { title: 'Servicio', dataIndex: 'servicio', key: 'servicio' },
@@ -56,7 +57,7 @@ const columns = [
   { title: 'Total', dataIndex: 'total', key: 'total' }
 ]
 
-// 📥 Datos
+// Datos
 const estadisticas = ref([])
 
 onMounted(async () => {
@@ -75,7 +76,7 @@ onMounted(async () => {
   }
 })
 
-// 🎯 Gráfico de pastel: ingresos por servicio
+// Gráfico de pastel: ingresos por servicio
 const pieData = computed(() => {
   const resumen = {}
 
