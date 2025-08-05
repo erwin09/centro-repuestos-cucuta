@@ -175,6 +175,10 @@ const generarCodigo = async () => {
 };
 
 const crearCita = async () => {
+
+  if (dayjs(form.value.fecha).isBefore(dayjs())) {
+    return message.error('No puedes agendar una cita en una fecha y hora que ya han pasado');
+  }
   try {
     const payload = {
       ...form.value,

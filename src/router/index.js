@@ -54,14 +54,13 @@ router.beforeEach((to, from) => {
 
     if (to.meta.requiresAuth && !isAuth) {
       if (to.fullPath !== "/login") return "/login";
-      return; // Ya está en /login, no redirigir otra vez
+      return; 
     }
 
     if (to.fullPath === "/" && !isAuth) return "/login";
 
     if (to.fullPath === "/login" && isAuth) return "/";
 
-    // No redirección: dejar continuar
     return;
   } catch (error) {
     console.log("Error ", error);

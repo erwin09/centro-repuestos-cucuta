@@ -72,9 +72,12 @@ onMounted(cargarDatos)
 }
 
 .card-header h3 {
-  margin: 0;
+   margin: 0;
   font-size: 1.2rem;
   color: #e53935;
+  word-wrap: break-word;      
+  overflow-wrap: break-word; 
+  white-space: normal; 
 }
 
 .codigo {
