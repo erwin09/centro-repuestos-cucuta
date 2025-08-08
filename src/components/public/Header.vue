@@ -1,9 +1,9 @@
 <template>
     <div class="header">
-    <div class="logo-menu" /> <a-menu class="menu-ppal" v-model:selectedKeys="current" mode="horizontal"
-        @select="redirectMenu" :items="items" />
+        <div class="logo-menu" /> <a-menu class="menu-ppal" v-model:selectedKeys="current" mode="horizontal"
+            @select="redirectMenu" :items="items" />
         <button @click="cerrarSesion" class="logout-btn">Cerrar sesión</button>
-        </div>
+    </div>
 </template>
 <script setup>
 import { h, ref } from 'vue';
@@ -31,11 +31,11 @@ const items = ref([
         children: [
             {
                 label: 'Lista usuarios',
-                key: '/usuarios'                
+                key: '/usuarios'
             },
             {
                 label: 'Registrar usuario',
-                key: '/registroUsuario'                
+                key: '/registroUsuario'
             },
         ]
     },
@@ -44,6 +44,7 @@ const items = ref([
         icon: () => h(CalendarOutlined),
         label: 'Citas',
         title: 'Citas',
+
     },
     {
         key: '/mantenimientos',
@@ -61,15 +62,15 @@ const items = ref([
         key: '6',
         label: 'Repuestos',
         icon: () => h(BarsOutlined),
-        title: 'Repuestos', 
+        title: 'Repuestos',
         children: [
             {
                 label: 'Lista repuestos',
-                key: '/repuestos'                
+                key: '/repuestos'
             },
             {
                 label: 'Registrar repuestos',
-                key: '/registroRepuesto'                
+                key: '/registroRepuesto'
             },
         ]
     },
@@ -79,7 +80,7 @@ const items = ref([
         label: 'Notificaciones',
         title: 'Notificaciones',
     },
-    
+
 ]);
 
 const router = useRouter()
@@ -89,21 +90,20 @@ const redirectMenu = (e) => {
     router.push(e.key)
 }
 const cerrarSesion = () => {
-  store.$reset()           
-  localStorage.clear()      
-  router.push('/login')     
+    store.$reset()
+    localStorage.clear()
+    router.push('/login')
 }
 </script>
 <style>
-
 .header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 1rem;
-  height: 60px;
-  background-color: #fff;
-  border-bottom: 1px solid #eee;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 1rem;
+    height: 60px;
+    background-color: #fff;
+    border-bottom: 1px solid #eee;
 }
 
 .logo-menu {
@@ -118,19 +118,20 @@ const cerrarSesion = () => {
 
 .menu-ppal {
     flex-grow: 1;
-  justify-content: center;
-  display: flex;
+    justify-content: center;
+    display: flex;
 }
+
 .logout-btn {
-  background-color: #e53935;
-  color: white;
-  border: none;
-  padding: 0.4rem 0.8rem;
-  border-radius: 4px;
-  cursor: pointer;
+    background-color: #e53935;
+    color: white;
+    border: none;
+    padding: 0.4rem 0.8rem;
+    border-radius: 4px;
+    cursor: pointer;
 }
 
 .logout-btn:hover {
-  background-color: #c62828;
+    background-color: #c62828;
 }
 </style>

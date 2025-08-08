@@ -13,7 +13,7 @@
             </a-select>
           </a-form-item>
 
-          <a-form-item label="Servicio" name="servicio">
+          <a-form-item label="Diagnostico" name="servicio">
             <a-input v-model:value="form.nombre" placeholder="Escribe su inconveniente" />
           </a-form-item>
 

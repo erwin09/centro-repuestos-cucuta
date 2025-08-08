@@ -48,10 +48,13 @@
               :filter-option="(input, option) => option.label.toLowerCase().includes(input.toLowerCase())" />
           </a-form-item>
           <a-form-item label="Técnico">
-            <a-input v-model:value="nuevoServicio.tecnico" min="1" style="width: 100%" />
+            <a-select v-model:value = "nuevoServicio.tecnico" style="width: 100%;">
+              <option value="Fabian Illeras">Fabian Illeras</option>
+              <option value="Yeison Illeras">Yeison Illeras</option>
+            </a-select>
           </a-form-item>
           <a-form-item label="Precio">
-            <a-input-number v-model:value="nuevoServicio.precio" min="0" style="width: 100%" @keypress="validarInputPrecio"/>
+            <a-input-number v-model:value="nuevoServicio.precio" min="0" style="width: 100%" @keypress="evitarLetras" @input="()=> validarNumero(nuevoServicio,'precio', 0)"/>
           </a-form-item>
         </a-form>
       </a-modal>
@@ -74,10 +77,10 @@
               :filter-option="(input, option) => option.label.toLowerCase().includes(input.toLowerCase())" />
           </a-form-item>
           <a-form-item label="Cantidad">
-            <a-input-number v-model:value="nuevoRepuesto.cantidad" min="1" style="width: 100%" @keypress="validarInputPrecio"/>
+            <a-input-number v-model:value="nuevoRepuesto.cantidad" min="1" style="width: 100%" @keypress="evitarLetras" @input="()=> validarNumero(nuevoRepuesto,'cantidad', 0)"/>
           </a-form-item>
           <a-form-item label="Precio">
-            <a-input-number v-model:value="nuevoRepuesto.precio" min="0" style="width: 100%" @keypress="validarInputPrecio"/>
+            <a-input-number v-model:value="nuevoRepuesto.precio" min="0" style="width: 100%" @keypress="evitarLetras" @input="()=> validarNumero(nuevoRepuesto,'precio', 0)"/>
           </a-form-item>
         </a-form>
       </a-modal>
@@ -220,13 +223,13 @@ const columnsModalRepuestos = [
 const nuevoServicio = reactive({
   id: null,
   Tecnico: '',
-  precio: 0
+  precio: ''
 })
 
 const nuevoRepuesto = reactive({
   id: null,
   cantidad: 1,
-  precio: 0
+  precio: ''
 })
 
 // Tabla de servicios agregados
@@ -322,26 +325,31 @@ const cargarVehiculosCliente = async (Num_doc) => {
   }
 }
 
-const validarInputPrecio = (e) => {
-  evitarLetras(e)
-  validarNumero(nuevoRepuesto, 'precio', 0)
-}
 
 const validarNumero = (objeto, campo, minimo) => {
-  const valor = objeto[campo]
+  let valor = objeto[campo];
 
-  // Si no es número o es negativo, corregir
-  if (typeof valor !== 'number' || isNaN(valor) || valor < minimo) {
-    objeto[campo] = minimo
-    message.warning(`El valor de "${campo}" no puede ser menor a ${minimo}`)
+  const valorStr = String(valor);
+
+  if (/^0[0-9]+$/.test(valorStr)) {
+    valor = parseFloat(valorStr.replace(/^0+/, ''));
+  } else {
+    valor = parseFloat(valor);
+  }
+
+  if (isNaN(valor) || valor < minimo) {
+    objeto[campo] = minimo;
+    message.warning(`El valor de "${campo}" no puede ser menor a ${minimo}`);
+  } else {
+    objeto[campo] = valor;
   }
 }
 
 const evitarLetras = (event) => {
-  const char = String.fromCharCode(event.keyCode);
-  const regex = /[0-9.]/
+  const tecla = event.key;
+  const regex = /^[0-9.]$/; // solo números y punto decimal
 
-  if (!regex.test(char)) {
+  if (!regex.test(tecla)) {
     event.preventDefault();
   }
 }
@@ -388,6 +396,7 @@ const agregarRepuesto = () => {
 
   nuevoRepuesto.id = null
   nuevoRepuesto.cantidad = 1
+  nuevoRepuesto.precio = 0
   visibleModal.value = false
 }
 

@@ -23,7 +23,7 @@
 
                     <td>
                         <input v-if="servicio.editando" v-model.number="servicio.precio" type="number" min="0"
-                            step="0.01"  @input="validarNumeroPositivo(servicio, 'precio')"/>
+                            step="0.01" @input="validarNumeroPositivo(servicio, 'precio')" @keypress="evitarLetras"/>
                         <span v-else>{{ servicio.precio }}</span>
                     </td>
 
@@ -70,7 +70,7 @@
 
                     <div class="form-group">
                         <label>Precio:</label>
-                        <input v-model="servicio.precio" required />
+                        <input v-model="servicio.precio" required @keypress="evitarLetras" @input="validarNumeroPositivo"/>
                     </div>
 
                     <div class="form-group">
@@ -133,8 +133,8 @@ const validarNumeroPositivo = (servicio, campo) => {
 
 const guardarCambios = async (servicio) => {
     try {
-        await axios.put(`/api/servicios/${servicio.Id_servicio}`, {
-            Id_servicio: servicio.Id_servicios,
+        await axios.put(`/api/servicios/${servicio.Id_servicios}`, {
+            Id_servicios: servicio.Id_servicios,
             nombre: servicio.nombre,
             precio: servicio.precio,
             tiempo_estimado: servicio.tiempo_estimado,
@@ -173,6 +173,15 @@ const cerrarModal = () => {
     mostrarModal.value = false
 }
 console.log("servicios enviados", servicio);
+
+const evitarLetras = (event) => {
+    const tecla = event.key;
+    const regex = /^[0-9.]$/; // solo números y punto decimal
+
+    if (!regex.test(tecla)) {
+        event.preventDefault();
+    }
+}
 
 const registrarServicio = async () => {
     try {

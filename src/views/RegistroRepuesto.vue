@@ -24,7 +24,7 @@
           </a-form-item>
 
           <a-form-item label="Cantidad" name="cantidad">
-            <a-input v-model:value="form.cantidad" placeholder="Ingresar cantidad" />
+            <a-input v-model:value="form.cantidad" placeholder="Ingresar cantidad" @keypress="evitarLetras" />
           </a-form-item>
 
         </div>
@@ -60,7 +60,7 @@
           </a-form-item>
 
           <a-form-item label="Precio unitario" name="precio">
-            <a-input v-model:value="form.precio" placeholder="Ingresa precio" />
+            <a-input v-model:value="form.precio" placeholder="Ingresa precio" @keypress="evitarLetras"/>
           </a-form-item>
         </div>
       </div>
@@ -245,6 +245,16 @@ const rules = {
   ],
 }
 
+
+const evitarLetras = (event) => {
+  const tecla = event.key;
+  const regex = /^[0-9.]$/; // solo números y punto decimal
+
+  if (!regex.test(tecla)) {
+    event.preventDefault();
+  }
+}
+
 const form = reactive({
   Id_producto: '',
   nombre: '',
@@ -261,7 +271,7 @@ const form = reactive({
 const registrar = async () => {
   formRef.value.validate().then(async () => {
     console.log(' Formulario válido:', form)
-    
+
     try {
       await axios.post('/api/productos/crearcompleto', {
         Id_producto: form.Id_producto,
