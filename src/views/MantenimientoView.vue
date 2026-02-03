@@ -119,6 +119,7 @@
 import { ref, reactive, onMounted, computed, h } from 'vue'
 import axios from 'axios'
 import { message } from 'ant-design-vue'
+import mantenimientoService from '../services/mantenimientoService'
 
 // Formulario
 const form = reactive({
@@ -426,7 +427,7 @@ const registrarMantenimiento = async () => {
   console.log("datos enviados la backend", datos);
 
   try {
-    await axios.post('/api/mantenimientos/crear', datos)
+    await axios.post('/api/mantenimientos/create', datos)
     message.success('Mantenimiento registrado correctamente')
     await cargarDatos()
     await resetearFormulario()

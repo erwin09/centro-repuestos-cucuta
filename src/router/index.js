@@ -7,7 +7,6 @@ import AboutView from '../views/AboutView.vue';
 import UsuarioView from '../views/UsuarioView.vue';
 import RepuestosView from '../views/RepuestosView.vue';
 import RegistroUsuarioView from '../views/RegistroUSuario.vue';
-import ejercico from '../views/ejercico.vue';
 import RegistroRepuesto from '../views/RegistroRepuesto.vue';
 import MantenimientosView from '../views/MantenimientoView.vue';
 import ServiciosView from '../views/ServiciosView.vue';
@@ -17,6 +16,7 @@ import HomeClientView from '../views/HomeClientView.vue';
 import ServiciosClienteView from '../views/ServiciosClienteView.vue';
 import RepuestosClienteView from '../views/RepuestosClienteView.vue';
 import MantenimientosClienteView from '../views/MantenimientosClienteView.vue';
+import MantenimientosViewR from '../views/MantenimientoViewR.vue';
 import CitasView from '../views/CitasView.vue';
 
 
@@ -27,10 +27,9 @@ const routes = [
   { path: '/about', name: 'about', component: AboutView, meta: {requiresAuth: true} },
   { path: '/usuarios', name: 'usuarios', component: UsuarioView, meta: {requiresAuth: true} },
   { path: '/repuestos', name: 'productos', component: RepuestosView, meta: {requiresAuth: true} },
-  { path: '/ejercicio', name: 'ejercicio', component: ejercico },
   { path: '/registroUsuario', name: 'registroUsuiario', component: RegistroUsuarioView, meta: {requiresAuth: true} },
   { path: '/registroRepuesto', name: 'registroRepuesto', component: RegistroRepuesto, meta: {requiresAuth: true} },
-  { path: '/mantenimientos', name: 'mantenimientos', component: MantenimientosView, meta: {requiresAuth: true} },
+  { path: '/mantenimientos', name: 'mantenimientos', component: MantenimientosViewR, meta: {requiresAuth: true} },
   { path: '/servicios', name: 'servicios', component: ServiciosView, meta: {requiresAuth: true} },
   { path: '/notificaciones', name: 'notificaciones', component: NotificacionesView, meta: {requiresAuth: true} },
   { path: '/citasCliente', name: 'citasCliente', component: CitasClienteView, meta: {requiresAuth: true} },

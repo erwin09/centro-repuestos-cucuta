@@ -13,7 +13,7 @@
       <a-layout-content class="layout-content">
         <RouterView />
       </a-layout-content>
-      <a-layout-footer v-if="logged && rol ==='cliente'" :style="footerStyle">
+      <a-layout-footer v-if="logged && rol === 'cliente'" :style="footerStyle">
         <Footer></Footer>
       </a-layout-footer>
     </a-layout>
