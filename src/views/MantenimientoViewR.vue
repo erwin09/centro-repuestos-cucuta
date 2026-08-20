@@ -69,7 +69,7 @@
 <script setup>
 import { ref, reactive, onMounted, h } from 'vue'
 import { useMantenimiento } from '../composables/useMantenimiento'
-import ServiceModal from '../components/ServiceModal.vue'
+import ServiceModal from '../components/ServiceModalcopy.vue'
 import RepuestoModal from '../components/RepuestoModal.vue'
 import TablaEditable from '../components/TablaEditable.vue'
 import mantenimientoService from '../services/mantenimientoService.js'

@@ -1,5 +1,5 @@
 <template>
-  <a-modal v-model:open="visible" title="Agregar Servicio Técnico" @ok="onOk">
+  <a-modal v-model:open="visible" title="Agregar Servicio Técnico" @ok="onOk" @cancel="onCancel">
     <a-form layout="vertical">
       <a-form-item label="Servicio técnico">
         <a-select show-search v-model:value="servicio.id" :options="serviciosOptions"
@@ -31,7 +31,15 @@ const emit = defineEmits(['update:visible', 'ok'])
 
 const { visible } = toRefs(props)
 
-const onOk = () => emit('ok')
+const onCancel = () => {
+  emit('update:visible', false)
+}
+
+const onOk = () => {
+  emit('ok')
+  emit('update:visible', false)
+}
+
 const evitarLetras = (event) => {
   const tecla = event.key
   const regex = /^[0-9.]$/

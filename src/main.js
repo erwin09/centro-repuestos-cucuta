@@ -3,9 +3,31 @@ import { createPinia } from "pinia";
 import './style.css'
 import router from "./router";
 import App from './App.vue'
-  import axios from 'axios';
-  const BASE_URL = import.meta.env.VITE_APP_API_URL;
-  axios.defaults.baseURL = BASE_URL;
+import axios from 'axios';
+import { useStoreApp } from './store/store';
+const BASE_URL = import.meta.env.VITE_APP_API_URL;
+axios.defaults.baseURL = BASE_URL;
+
+axios.interceptors.request.use((config) => {
+  const storedState = window.localStorage.getItem('storeApp');
+  const token = storedState ? JSON.parse(storedState).token : null;
+
+  if (token) config.headers.Authorization = `Bearer ${token}`;
+  return config;
+});
+
+axios.interceptors.response.use(
+  response => response,
+  error => {
+    if (error.response?.status === 401) {
+      const store = useStoreApp();
+      store.logout();
+      window.localStorage.removeItem('storeApp');
+      if (window.location.pathname !== '/login') window.location.href = '/login';
+    }
+    return Promise.reject(error);
+  }
+);
 
 const pinia = createPinia();
 

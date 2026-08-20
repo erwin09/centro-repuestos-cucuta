@@ -1,87 +1,76 @@
-# Vue 3 + Vite
+# Frontend Centro Repuestos
 
-This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+Aplicacion web para la operacion de Centro Repuestos, construida como cliente SPA del backend central.
 
-Learn more about IDE Support for Vue in the [Vue Docs Scaling up Guide](https://vuejs.org/guide/scaling-up/tooling.html#ide-support).
+## Proposito
 
-# 📦 Proyecto Vite + Vue 3
+Ofrece interfaces diferenciadas para administradores y clientes. Permite gestionar catalogos, usuarios, vehiculos, citas y mantenimientos, y consultar los servicios, repuestos e historial asociados a cada vehiculo.
 
-Este proyecto es una base inicial para comenzar a desarrollar una aplicación frontend utilizando [Vite](https://vitejs.dev/) y [Vue 3](https://vuejs.org/).
+## Experiencia y reglas de acceso
 
-## 🚀 Tecnologías
+- El acceso se determina por autenticacion y rol.
+- Los administradores gestionan la operacion del centro.
+- Los clientes consultan y gestionan unicamente sus propios recursos.
+- La navegacion oculta opciones no disponibles, mientras la autorizacion definitiva corresponde al backend.
+- Los estados de carga, errores y respuestas del backend se manejan desde las vistas y servicios de la aplicacion.
 
-- [Vite](https://vitejs.dev/) – Empaquetador rápido para desarrollo moderno.
-- [Vue 3](https://vuejs.org/) – Framework progresivo para construir interfaces de usuario.
-- [Pinia](https://pinia.vuejs.org/) (opcional) – Manejo de estado global.
-- [Vue Router](https://router.vuejs.org/) – Navegación entre páginas.
-- [Tailwind CSS](https://tailwindcss.com/) (opcional) – Framework de utilidades CSS.
+## Arquitectura
 
-## 📁 Estructura del proyecto
-<pre>
+```text
 src/
-├── assets/ # Imágenes y archivos estáticos
-├── components/ # Componentes reutilizables
-├── views/ # Vistas o páginas principales
-├── router/ # Configuración de rutas
-├── store/ # Estado global (si usas Pinia)
-├── App.vue # Componente raíz
-└── main.js # Punto de entrada principal
-``` </pre>
+├── assets/       Recursos visuales
+├── components/   Componentes reutilizables
+├── composables/  Logica compartida de Vue
+├── layouts/      Estructuras visuales
+├── router/       Navegacion y guards
+├── services/     Cliente HTTP y servicios de dominio
+├── store/        Estado global con Pinia
+├── views/        Pantallas funcionales
+├── App.vue       Componente raiz
+└── main.js       Inicializacion de la aplicacion
+```
 
-# 🔧 Requisitos
+La aplicacion consume la API mediante Axios. La sesion se conserva en el estado de Pinia y el token JWT se adjunta a las peticiones protegidas.
 
-Antes de comenzar, asegúrate de tener instalado:
+## Tecnologias
 
-- [Node.js](https://nodejs.org/) (versión recomendada: 18.x o superior)
-- npm (viene con Node.js)
+- Vue 3
+- Vite
+- Vue Router
+- Pinia
+- Axios
+- Ant Design Vue
+- Chart.js y vue-chartjs
+- Less
 
-## 📦 Instalación del proyecto
+## Areas funcionales
 
-# Instala las dependencias
+- Inicio y paneles de operacion.
+- Autenticacion y recuperacion de cuenta.
+- Usuarios y clientes.
+- Vehiculos.
+- Productos, marcas y proveedores.
+- Servicios.
+- Citas.
+- Mantenimientos.
+- Notificaciones.
+
+## Desarrollo
+
+Requisitos: Node.js 18 o superior y npm.
+
+```bash
 npm install
-
-# Ejecutar en modo desarrollo
 npm run dev
+```
 
-# Ejecutar en modo producción
-npm run build
+La URL de la API se configura mediante `VITE_APP_API_URL` en `.env`, usando `.env.example` como referencia. Las variables `VITE_` son publicas en el navegador y no deben contener secretos.
 
+## Documentacion relacionada
 
-# ✅ Ruta básica
-Crea una vista en src/views/HomeView.vue:
+Los requerimientos y decisiones de arquitectura se encuentran en:
 
-<template>
-  <div>
-    <h2>Bienvenido a la página de inicio</h2>
-  </div>
-</template>
-
-Y configura tu router en src/router/index.js:
-<pre> ```
-import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
-
-const routes = [
-  { path: '/', name: 'Home', component: HomeView },
-]
-
-const router = createRouter({
-  history: createWebHistory(),
-  routes,
-})
-
-export default router
-
-``` </pre>
-
-### 📦 Autoimportación de componentes con `unplugin-vue-components`
-
-Se utiliza la librería `unplugin-vue-components` para autoimportar componentes automáticamente en los archivos `.vue`, evitando tener que escribir manualmente los `import` y registros de cada componente.
-
-Esto hace que el código sea más limpio y fácil de mantener, especialmente al usar bibliotecas como Ant Design Vue.
-
-```vue
-<!-- Podemos usar directamente el componente sin importarlo -->
-<template>
-  <a-button type="primary">Aceptar</a-button>
-</template>
+- [Analisis general y plan de mejoras](../ANALISIS_Y_PLAN_DE_MEJORAS.md)
+- [Spec 001: auditoria, roles y soft delete](../docs/specs/001-auditoria-roles-soft-delete.md)
+- [Spec 002: autenticacion, autorizacion y auditoria](../docs/specs/002-autenticacion-autorizacion-auditoria.md)
+- [Spec 003: empleados, tecnicos, ordenes y pagos](../docs/specs/003-empleados-tecnicos-ordenes-pagos.md)

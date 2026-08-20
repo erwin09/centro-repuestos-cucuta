@@ -73,9 +73,10 @@ const onFinish = values => {
             const usuario = res.data.login?.usuario;
             const rol = usuario?.rol;
             const Num_doc = usuario?.Num_doc;
+            const token = res.data.login?.token;
             console.log('Rol recibido:', rol);
 
-            store.login(rol, Num_doc);
+            store.login(rol, Num_doc, token);
 
             switch (rol) {
                 case "administrador":
